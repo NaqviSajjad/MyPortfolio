@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #f7f7f5;
+  --surface: #ffffff;
+  --foreground: #14161a;
+  --muted: #5b6069;
+  --border: #e2e3e0;
+  --accent: #0f9d6a;
+  --accent-foreground: #ffffff;
+  --code: #6d28d9;
+}
+
+.dark {
+  --background: #0b0d10;
+  --surface: #131619;
+  --foreground: #eceef0;
+  --muted: #9aa0a8;
+  --border: #22262b;
+  --accent: #35d399;
+  --accent-foreground: #06120c;
+  --code: #a78bfa;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-code: var(--code);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
