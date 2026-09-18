@@ -22,7 +22,21 @@ Open [http://localhost:3000](http://localhost:3000).
 
 All resume/profile content lives in [`src/lib/data.ts`](src/lib/data.ts) — edit that file to update experience, skills, or projects rather than the components.
 
-The downloadable CV at `public/cv.pdf` is generated from the source CV; regenerate it after editing content by re-running the export script used to build it.
+The downloadable CV at `public/cv.pdf` is generated from [`scripts/cv_source.docx`](scripts/cv_source.docx) — that `.docx` is the editable source of truth.
+
+**To update the CV:**
+
+1. Open `scripts/cv_source.docx` in Word, Pages, or Google Docs and edit it directly.
+2. Regenerate the PDF:
+
+   ```bash
+   python3 scripts/docx_to_pdf.py
+   ```
+
+   This requires [LibreOffice](https://www.libreoffice.org) for headless conversion (`brew install --cask libreoffice`) and overwrites `public/cv.pdf`.
+3. Commit both the updated `cv_source.docx` and the regenerated `public/cv.pdf`.
+
+`scripts/generate_cv_docx.py` is only needed if you want to rebuild `cv_source.docx` from scratch (e.g. to reset formatting) — it regenerates the `.docx` from Python instead of from hand-edits, using the headshot at `scripts/assets/profile.jpg`.
 
 ## Deploy
 
