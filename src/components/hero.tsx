@@ -6,25 +6,37 @@ import { GithubIcon, LinkedinIcon } from "@/components/icons";
 export function Hero() {
   return (
     <section id="top" className="mx-auto max-w-5xl px-6 pb-20 pt-16 md:pt-24">
-      <div className="flex flex-col-reverse items-start gap-10 md:flex-row md:items-center md:justify-between md:gap-12">
-        <div className="md:flex-1">
+      <div className="flex flex-col items-center gap-8 text-center">
+        <div className="relative flex-none">
+          <div className="absolute inset-0 -z-10 rounded-full bg-accent opacity-20 blur-2xl" />
+          <Image
+            src="/images/sajjad.jpg"
+            alt="Sajjad Naqvi"
+            width={176}
+            height={176}
+            priority
+            className="h-28 w-28 rounded-full border-2 border-accent/40 object-cover sm:h-36 sm:w-36 md:h-44 md:w-44"
+          />
+        </div>
+
+        <div className="mx-auto max-w-2xl">
           <p className="font-mono text-sm text-accent">Hi, I&apos;m</p>
           <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl">
             {profile.name}
           </h1>
-          <h2 className="mt-4 max-w-2xl text-lg text-muted sm:text-xl">{profile.title}</h2>
+          <h2 className="mt-4 text-lg text-muted sm:text-xl">{profile.title}</h2>
 
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted">
+          <p className="mt-6 text-base leading-relaxed text-muted">
             {profile.summary}
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3 text-sm text-muted">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-sm text-muted">
             <span>{profile.location}</span>
             <span className="text-border">·</span>
             <span>{profile.relocate}</span>
           </div>
 
-          <div className="mt-10 flex flex-wrap items-center gap-4">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <a
               href="#projects"
               className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
@@ -69,18 +81,6 @@ export function Hero() {
               </a>
             </div>
           </div>
-        </div>
-
-        <div className="relative flex-none">
-          <div className="absolute inset-0 -z-10 rounded-full bg-accent opacity-20 blur-2xl" />
-          <Image
-            src="/images/sajjad.jpg"
-            alt="Sajjad Naqvi"
-            width={176}
-            height={176}
-            priority
-            className="h-28 w-28 rounded-full border-2 border-accent/40 object-cover sm:h-36 sm:w-36 md:h-44 md:w-44"
-          />
         </div>
       </div>
     </section>

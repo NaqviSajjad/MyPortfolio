@@ -39,10 +39,10 @@ section.right_margin = Cm(1.4)
 
 style = doc.styles["Normal"]
 style.font.name = "Calibri"
-style.font.size = Pt(9.6)
+style.font.size = Pt(10.2)
 style.paragraph_format.space_after = Pt(0)
 style.paragraph_format.space_before = Pt(0)
-style.paragraph_format.line_spacing = 1.05
+style.paragraph_format.line_spacing = 1.12
 
 
 def set_cell_border(cell, **kwargs):
@@ -70,10 +70,10 @@ def add_para(text="", size=9.3, bold=False, italic=False, color=BLACK, space_bef
 
 def add_heading(text):
     p = doc.add_paragraph()
-    p.paragraph_format.space_before = Pt(12)
-    p.paragraph_format.space_after = Pt(4)
+    p.paragraph_format.space_before = Pt(16)
+    p.paragraph_format.space_after = Pt(5)
     run = p.add_run(text)
-    run.font.size = Pt(12)
+    run.font.size = Pt(13)
     run.font.bold = True
     run.font.color.rgb = ACCENT
     run.font.name = "Calibri"
@@ -90,14 +90,14 @@ def add_heading(text):
     return p
 
 
-def add_bullets(items, size=9.3, space_after=2.2):
+def add_bullets(items, size=9.8, space_after=3.2):
     for item in items:
         p = doc.add_paragraph(style=None)
         p.paragraph_format.left_indent = Cm(0.45)
         p.paragraph_format.first_line_indent = Cm(-0.28)
         p.paragraph_format.space_before = Pt(0)
         p.paragraph_format.space_after = Pt(space_after)
-        p.paragraph_format.line_spacing = 1.03
+        p.paragraph_format.line_spacing = 1.12
         run = p.add_run("• ")
         run.font.size = Pt(size)
         run.font.color.rgb = ACCENT
@@ -107,10 +107,10 @@ def add_bullets(items, size=9.3, space_after=2.2):
         run2.font.color.rgb = BLACK
 
 
-def add_job_line(role, meta, period, size=9.9):
+def add_job_line(role, meta, period, size=10.6):
     """Role/company on the left, period right-aligned, same line via a tab stop."""
     p = doc.add_paragraph()
-    p.paragraph_format.space_before = Pt(9)
+    p.paragraph_format.space_before = Pt(13)
     p.paragraph_format.space_after = Pt(0)
     tab_stops = p.paragraph_format.tab_stops
     tab_stops.add_tab_stop(section.page_width - section.left_margin - section.right_margin,
@@ -121,7 +121,7 @@ def add_job_line(role, meta, period, size=9.9):
     r1.font.color.rgb = BLACK
     p.add_run("\t")
     r2 = p.add_run(period)
-    r2.font.size = Pt(8.9)
+    r2.font.size = Pt(9.4)
     r2.font.italic = True
     r2.font.color.rgb = MUTED
 
@@ -131,13 +131,23 @@ def add_job_line(role, meta, period, size=9.9):
 # ---------------------------------------------------------------------------
 header_table = doc.add_table(rows=1, cols=2)
 header_table.autofit = False
-header_table.columns[0].width = Cm(14.7)
-header_table.columns[1].width = Cm(2.6)
+header_table.columns[0].width = Cm(14.5)
+header_table.columns[1].width = Cm(2.8)
 
 left_cell, right_cell = header_table.rows[0].cells
-left_cell.width = Cm(14.7)
-right_cell.width = Cm(2.6)
+left_cell.width = Cm(14.5)
+right_cell.width = Cm(2.8)
 right_cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+
+# zero out default cell padding on the photo cell so centering is exact
+tcPr = right_cell._tc.get_or_add_tcPr()
+tcMar = OxmlElement("w:tcMar")
+for side in ("top", "start", "bottom", "end", "left", "right"):
+    node = OxmlElement(f"w:{side}")
+    node.set(qn("w:w"), "0")
+    node.set(qn("w:type"), "dxa")
+    tcMar.append(node)
+tcPr.append(tcMar)
 
 lp = left_cell.paragraphs[0]
 lp.paragraph_format.space_after = Pt(1)
@@ -167,10 +177,10 @@ r.font.size = Pt(8.5)
 r.font.color.rgb = MUTED
 
 rp = right_cell.paragraphs[0]
-rp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+rp.alignment = WD_ALIGN_PARAGRAPH.CENTER
 if os.path.exists(PHOTO):
     run = rp.add_run()
-    run.add_picture(PHOTO, width=Cm(2.6), height=Cm(3.35))
+    run.add_picture(PHOTO, width=Cm(2.5), height=Cm(3.22))
 
 # remove table borders/padding
 tbl = header_table._tbl
@@ -195,7 +205,7 @@ add_para(
     "and staged CI/CD pipelines in GitHub Actions, GitLab CI, and Jenkins. Hands-on with AWS and "
     "observability (Grafana, CloudWatch), and building practical AI-assisted testing skills through "
     "public LLM-driven test-generation projects.",
-    size=9.5, space_after=3,
+    size=10.2, space_after=4,
 )
 
 # ---------------------------------------------------------------------------
@@ -214,14 +224,14 @@ skills = [
 ]
 for label, val in skills:
     p = doc.add_paragraph()
-    p.paragraph_format.space_after = Pt(2.4)
-    p.paragraph_format.line_spacing = 1.03
+    p.paragraph_format.space_after = Pt(3.4)
+    p.paragraph_format.line_spacing = 1.1
     r1 = p.add_run(f"{label}: ")
     r1.font.bold = True
-    r1.font.size = Pt(9.3)
+    r1.font.size = Pt(9.9)
     r1.font.color.rgb = BLACK
     r2 = p.add_run(val)
-    r2.font.size = Pt(9.3)
+    r2.font.size = Pt(9.9)
     r2.font.color.rgb = MUTED
 
 # ---------------------------------------------------------------------------
@@ -286,10 +296,10 @@ for title, stack, points in projects:
     p.paragraph_format.space_after = Pt(0)
     r = p.add_run(title)
     r.font.bold = True
-    r.font.size = Pt(9.9)
+    r.font.size = Pt(10.6)
     r.font.color.rgb = BLACK
     p2 = doc.add_paragraph()
-    p2.paragraph_format.space_after = Pt(1.5)
+    p2.paragraph_format.space_after = Pt(2)
     r2 = p2.add_run(stack)
     r2.font.size = Pt(8.6)
     r2.font.italic = True
@@ -300,20 +310,20 @@ for title, stack, points in projects:
 # Education / Certifications / Languages — two-column layout to save space
 # ---------------------------------------------------------------------------
 add_heading("EDUCATION")
-add_para("M.Sc. coursework, Applied Mathematics — Network & Data Sciences", size=9.3, bold=True, space_after=0)
-add_para("Hochschule Mittweida, Germany (90 ECTS completed) · 2018–2024", size=8.7, color=MUTED, space_after=4)
-add_para("B.Sc. Computer Science", size=9.3, bold=True, space_after=0)
-add_para("Sir Syed University of Engineering & Technology, Karachi, Pakistan · 2012–2016", size=8.7, color=MUTED, space_after=2)
+add_para("M.Sc. coursework, Applied Mathematics — Network & Data Sciences", size=9.9, bold=True, space_after=1)
+add_para("Hochschule Mittweida, Germany (90 ECTS completed) · 2018–2024", size=9.3, color=MUTED, space_after=6)
+add_para("B.Sc. Computer Science", size=9.9, bold=True, space_after=1)
+add_para("Sir Syed University of Engineering & Technology, Karachi, Pakistan · 2012–2016", size=9.3, color=MUTED, space_after=3)
 
 add_heading("CERTIFICATIONS & TRAINING")
 add_bullets([
     "DevOps on AWS: Tools for Automated Workflows (LinkedIn Learning)",
     "Intermediate Jenkins: Automate, Integrate, and Secure CI/CD Workflows at Scale (LinkedIn Learning)",
     "Playwright Advanced Automation (Udemy)",
-], size=9.3, space_after=2.2)
+], size=9.8, space_after=3.2)
 
 add_heading("LANGUAGES")
-add_para("English: Fluent (full working proficiency)      German: A2 (actively pursuing B1)", size=9.0, space_after=0)
+add_para("English: Fluent (full working proficiency)      German: A2 (actively pursuing B1)", size=9.9, space_after=0)
 
 doc.save(OUT)
 print(f"Wrote {os.path.abspath(OUT)}")
